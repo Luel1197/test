@@ -2,6 +2,8 @@ package com.sparta.javajyojo.entity;
 
 import com.sparta.javajyojo.dto.ReviewRequestDto;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +17,7 @@ public class Review extends Timestamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_id")
     private Long reviewId;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -26,6 +29,9 @@ public class Review extends Timestamped{
     private String review;
 
     private Long rating;
+
+    @OneToMany(mappedBy = "review")
+    private List<Review> reviewList = new ArrayList<>();
 
     public Review(ReviewRequestDto reviewRequestDto, Order order) {
         this.order = order;

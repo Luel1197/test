@@ -2,6 +2,8 @@ package com.sparta.javajyojo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +17,7 @@ public class OrderDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "orderDetail_id")
     private Long orderDetailId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -28,6 +31,9 @@ public class OrderDetail {
 
     @Column(nullable = false)
     private int amount;
+
+    @OneToMany(mappedBy = "orderDetail")
+    private List<OrderDetail> orderDetailList = new ArrayList<>();
 
     public OrderDetail(Order order, Menu menu, int amount) {
         this.order = order;

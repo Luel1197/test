@@ -2,6 +2,8 @@ package com.sparta.javajyojo.entity;
 
 import com.sparta.javajyojo.enums.UserRoleEnum;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +20,7 @@ public class User extends Timestamped implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private long userId;
 
     @Length(min = 4, max = 10)
@@ -39,6 +42,10 @@ public class User extends Timestamped implements Serializable {
     private UserRoleEnum role;
 
     private String refreshToken;
+
+    @OneToMany(mappedBy = "user")
+    private List<Like> likeList = new ArrayList<>();
+
 
     public User(String username, String password, String name, String intro, UserRoleEnum role) {
         this.username = username;

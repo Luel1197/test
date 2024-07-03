@@ -1,5 +1,6 @@
 package com.sparta.javajyojo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparta.javajyojo.dto.ReviewRequestDto;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ public class Review extends Timestamped{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_id")
     private Long reviewId;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -31,7 +31,10 @@ public class Review extends Timestamped{
     private Long rating;
 
     @OneToMany(mappedBy = "review")
-    private List<Review> reviewList = new ArrayList<>();
+    @JsonIgnore
+    private List<Like> likeList = new ArrayList<>();
+
+    private Integer likesCount = 0;
 
     public Review(ReviewRequestDto reviewRequestDto, Order order) {
         this.order = order;
@@ -52,4 +55,15 @@ public class Review extends Timestamped{
         this.rating = reviewRequestDto.getRating();
     }
 
+    public void addLike(Like like) {
+        likeList.add(like);
+        like.setReview(this);
+        likesCount++;
+    }
+
+    public void unLike(Like like) {
+        likeList.remove(like);
+        like.setReview(null);
+        likesCount--;
+    }
 }

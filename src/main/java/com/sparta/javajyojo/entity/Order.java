@@ -5,6 +5,7 @@ import com.sparta.javajyojo.enums.ErrorType;
 import com.sparta.javajyojo.enums.OrderStatus;
 import com.sparta.javajyojo.exception.CustomException;
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +23,6 @@ public class Order extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
     private Long orderId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,6 +44,12 @@ public class Order extends Timestamped {
 
     @Column(nullable = false)
     private int totalPrice;
+
+    @OneToMany(mappedBy = "order")
+    @JsonIgnore
+    private List<Like> likeList = new ArrayList<>();
+
+    private Integer likesCount = 0;
 
     public Order(User user, String deliveryRequest, String address, OrderStatus orderStatus, int totalPrice) {
         this.user = user;
@@ -72,5 +78,17 @@ public class Order extends Timestamped {
                 // 주문 상태를 CANCELED 로 변경
                 orderStatus = OrderStatus.CANCELED;
         }
+    }
+
+    public void addLike(Like like) {
+        likeList.add(like);
+        like.setOrder(this);
+        likesCount++;
+    }
+
+    public void unLike(Like like) {
+        likeList.remove(like);
+        like.setOrder(null);
+        likesCount--;
     }
 }

@@ -1,5 +1,6 @@
 package com.sparta.javajyojo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparta.javajyojo.enums.UserRoleEnum;
 import jakarta.persistence.*;
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ public class User extends Timestamped implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private long userId;
 
     @Length(min = 4, max = 10)
@@ -44,6 +44,7 @@ public class User extends Timestamped implements Serializable {
     private String refreshToken;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Like> likeList = new ArrayList<>();
 
 

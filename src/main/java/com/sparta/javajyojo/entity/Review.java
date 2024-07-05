@@ -32,7 +32,7 @@ public class Review extends Timestamped{
 
     @OneToMany(mappedBy = "review")
     @JsonIgnore
-    private List<Like> likeList = new ArrayList<>();
+    private List<LikeReview> likeReviewList = new ArrayList<>();
 
     private Integer likesCount = 0;
 
@@ -55,15 +55,15 @@ public class Review extends Timestamped{
         this.rating = reviewRequestDto.getRating();
     }
 
-    public void addLike(Like like) {
-        likeList.add(like);
-        like.setReview(this);
+    public void addLike(LikeReview likeReview) {
+        likeReviewList.add(likeReview);
+        likeReview.setReview(this);
         likesCount++;
     }
 
-    public void unLike(Like like) {
-        likeList.remove(like);
-        like.setReview(null);
+    public void unLike(LikeReview likeReview) {
+        likeReviewList.remove(likeReview);
+        likeReview.setReview(null);
         likesCount--;
     }
 }

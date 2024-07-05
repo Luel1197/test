@@ -25,7 +25,6 @@
 //    private final ReviewRepository reviewRepository;
 //    private final OrderDetailRepository orderDetailRepository;
 //    private final PasswordHistoryRepository passwordHistoryRepository;
-//    private final LikeRepository likeRepository;
 //
 //    @PostConstruct
 //    @Transactional

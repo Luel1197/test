@@ -47,7 +47,7 @@ public class Order extends Timestamped {
 
     @OneToMany(mappedBy = "order")
     @JsonIgnore
-    private List<Like> likeList = new ArrayList<>();
+    private List<LikeOrder> likeOrderList = new ArrayList<>();
 
     private Integer likesCount = 0;
 
@@ -80,15 +80,15 @@ public class Order extends Timestamped {
         }
     }
 
-    public void addLike(Like like) {
-        likeList.add(like);
-        like.setOrder(this);
+    public void addLike(LikeOrder likeOrder) {
+        likeOrderList.add(likeOrder);
+        likeOrder.setOrder(this);
         likesCount++;
     }
 
-    public void unLike(Like like) {
-        likeList.remove(like);
-        like.setOrder(null);
+    public void unLike(LikeOrder likeOrder) {
+        likeOrderList.remove(likeOrder);
+        likeOrder.setOrder(null);
         likesCount--;
     }
 }

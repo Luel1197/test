@@ -2,10 +2,13 @@ package com.sparta.javajyojo.controller;
 
 import com.sparta.javajyojo.dto.ReviewRequestDto;
 import com.sparta.javajyojo.dto.ReviewResponseDto;
+import com.sparta.javajyojo.entity.Review;
 import com.sparta.javajyojo.security.UserDetailsImpl;
+import com.sparta.javajyojo.service.LikeService;
 import com.sparta.javajyojo.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -53,5 +56,7 @@ public class ReviewController {
 
         return ResponseEntity.ok().body("리뷰가 삭제되었습니다.");
     }
+
+
 
 }

@@ -12,6 +12,8 @@ public class ProfileResponseDto {
     private final String name;
     private final String intro;
     private final String role;
+    private Integer ordersLikedCnt;
+    private Integer reviewsLikedCnt;
 
     public ProfileResponseDto(User user) {
         this.username = user.getUsername();
@@ -21,4 +23,8 @@ public class ProfileResponseDto {
         this.role = String.valueOf(user.getRole());
     }
 
+    public void updateContentLike(Integer ordersLikedCnt, Integer reviewsLikedCnt) {
+        this.ordersLikedCnt = ordersLikedCnt;
+        this.reviewsLikedCnt = reviewsLikedCnt;
+    }
 }

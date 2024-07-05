@@ -45,7 +45,7 @@ public class User extends Timestamped implements Serializable {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private List<Like> likeList = new ArrayList<>();
+    private List<LikeReview> likeReviewList = new ArrayList<>();
 
 
     public User(String username, String password, String name, String intro, UserRoleEnum role) {

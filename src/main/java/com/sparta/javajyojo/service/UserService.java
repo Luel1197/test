@@ -10,6 +10,8 @@ import com.sparta.javajyojo.enums.UserRoleEnum;
 import com.sparta.javajyojo.exception.CustomException;
 import com.sparta.javajyojo.repository.PasswordHistoryRepository;
 import com.sparta.javajyojo.repository.UserRepository;
+import com.sparta.javajyojo.repository.likeOrder.LikeOrderRepository;
+import com.sparta.javajyojo.repository.likeReview.LikeReviewRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordHistoryRepository passwordHistoryRepository;
     private final PasswordEncoder passwordEncoder;
+    private final LikeOrderRepository likeOrderRepository;
+    private final LikeReviewRepository likeReviewRepository;
+
 
     // ADMIN_TOKEN
     private final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
@@ -74,8 +79,14 @@ public class UserService {
         user.logOut();
     }
 
+    @Transactional
     public ProfileResponseDto getProfile(Long userId) {
-        return new ProfileResponseDto(findById(userId));
+        ProfileResponseDto profileResponseDto = new ProfileResponseDto(findById(userId));
+        Integer ordersLikedCnt = likeOrderRepository.countOrderLikesByUserId(userId);
+        Integer reviewsLikedCnt = likeReviewRepository.countReviewLikesByUserId(userId);
+        profileResponseDto.updateContentLike(ordersLikedCnt, reviewsLikedCnt);
+
+        return profileResponseDto;
     }
 
     @Transactional
